@@ -18,7 +18,7 @@ $hw = new homewizard();<br/><br/>
 $hw->ip_address = '192.168.1.5';<br/>
 $hw->password = 'PASSWORD';<br/>
 
-//Load the sunrise/sunset times for today and displey them`<br/>
+//Load the sunrise/sunset times for today and display them`<br/>
 if ($hw->suntimes()) {<br/>
 	echo 'Sun up: '.$hw->sunrise." - ";<br/>
 	echo 'Sun down: '.$hw->sunset';<br/>
@@ -32,6 +32,9 @@ $hw->get_sensors();
 
 //Load the sensors status again<br/>
 $hw->get_status();
+
+//Load all the timers<br/>
+$hw->get_timers();
 
 ?>
 </code>
