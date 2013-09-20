@@ -175,7 +175,7 @@ class homewizard {
 	}
 	
 	
-	/* Replace the text on standard options */
+	/* Replace the text on standard options to dutch */
 	public function replace_text($text) {
 		if (strlen($text) == 0) {
 			return 'Onbekend';
@@ -187,7 +187,7 @@ class homewizard {
 		return $text;
 	}	
 	
-	/* Replace the text on motion/contacts/doorbells texts */
+	/* Replace the text on motion/contacts/doorbells texts to dutch */
 	public function replace_sensor($text) {
 		if (strlen($text) == 0) {
 			return 'Onbekend';
