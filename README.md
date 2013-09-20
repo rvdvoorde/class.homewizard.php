@@ -30,7 +30,7 @@ $hw->get_switches();<br/>
 //Load all the sensors<br/>
 $hw->get_sensors();
 
-//Load the status off sensors again<br/>
+//Load the sensors status again<br/>
 $hw->get_status();
 
 ?>
