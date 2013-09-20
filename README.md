@@ -1,4 +1,4 @@
-php_fun
+homewizard-php-class
 =======
 
 This is a simple php class to get the communications
