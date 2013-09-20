@@ -6,6 +6,7 @@ You can use this class to controll switches/dimmers/somfy and read all the data 
 
 A few useage examples:
 
+<code>
 <?php
 
 session_start();
@@ -51,3 +52,4 @@ echo '</ul>';
 
 //etc...
 ?>
+</code>
