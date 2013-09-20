@@ -11,44 +11,31 @@ A few useage examples:
 
 session_start();
 
-//Load the homewizard class...
-require_once('class.homewizard.php');
-$hw = new homewizard();
+//Load the homewizard class...<br/>
+require_once('class.homewizard.php');<br/>
+$hw = new homewizard();<br/><br/>
 
-$hw->ip_address = '192.168.1.5';
-$hw->password = 'PASSWORD';
+$hw->ip_address = '192.168.1.5';<br/>
+$hw->password = 'PASSWORD';<br/>
 
-//or...
+//Load the sunrise/sunset times for today and displey them`<br/>
+if ($hw->suntimes()) {<br/>
+	echo 'Sun up: '.$hw->sunrise." - ";<br/>
+	echo 'Sun down: '.$hw->sunset';<br/>
+}<br/>
 
-if (!isset($_SESSION['hw_ip_address'])) {
-	if (!$hw->locate_hw()) {
-		echo '<b>no homewizard detected!</b>';
-		exit;
-	}
-} else {
-	$hw->ip_address = $_SESSION['hw_ip_address'];
-}
+//Load all the switches<br/>
+$hw->get_switches();<br/>
 
-
-//Load the sunrise/sunset times for today and displey them
-if ($hw->suntimes()) {
-	echo "<br/>\n";
-	echo 'Sun up: '.$hw->sunrise." - ";
-	echo 'Sun down: '.$hw->sunset."<br/>\n";
-}
-
-//Load all the switches
-$hw->get_switches();
-
-echo '<ul>';
-foreach ($hw->switches as $value) {
-	if ($value->dimmer == 'yes') {
-		echo '<li>'.$value->name.' ['.$hw->replace_text($value->status).'] { <a href="?id='.$value->id.'&value=7"><button>Schakel in</button></a> <a href="?id='.$value->id.'&value=0"><button>Schakel uit</button></a>'." } Dimmer: ".$value->dimlevel."% ]</li>\n";
-	} else {
-		echo '<li>'.$value->name.' ['.$hw->replace_text($value->status).'] { <a href="?id='.$value->id.'&value=7"><button>Schakel in</button></a> <a href="?id='.$value->id.'&value=0"><button>Schakel uit</button></a>'." } ]</li>\n";
-	}
-}
-echo '</ul>';
+echo '<ul>';<br/>
+foreach ($hw->switches as $value) {<br/>
+	if ($value->dimmer == 'yes') {<br/>
+		echo '<li>'.$value->name.' ['.$hw->replace_text($value->status).'] { <a href="?id='.$value->id.'&value=7"><button>Schakel in</button></a> <a href="?id='.$value->id.'&value=0"><button>Schakel uit</button></a>'." } Dimmer: ".$value->dimlevel."% ]</li>\n";<br/>
+	} else {<br/>
+		echo '<li>'.$value->name.' ['.$hw->replace_text($value->status).'] { <a href="?id='.$value->id.'&value=7"><button>Schakel in</button></a> <a href="?id='.$value->id.'&value=0"><button>Schakel uit</button></a>'." } ]</li>\n";<br/>
+	}<br/>
+}<br/>
+echo '</ul>';<br/>
 
 //etc...
 ?>
