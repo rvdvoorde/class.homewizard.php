@@ -27,16 +27,11 @@ if ($hw->suntimes()) {<br/>
 //Load all the switches<br/>
 $hw->get_switches();<br/>
 
-echo '<ul>';<br/>
-foreach ($hw->switches as $value) {<br/>
-	if ($value->dimmer == 'yes') {<br/>
-		echo '<li>'.$value->name.' ['.$hw->replace_text($value->status).'] { <a href="?id='.$value->id.'&value=7"><button>Schakel in</button></a> <a href="?id='.$value->id.'&value=0"><button>Schakel uit</button></a>'." } Dimmer: ".$value->dimlevel."% ]</li>\n";<br/>
-	} else {<br/>
-		echo '<li>'.$value->name.' ['.$hw->replace_text($value->status).'] { <a href="?id='.$value->id.'&value=7"><button>Schakel in</button></a> <a href="?id='.$value->id.'&value=0"><button>Schakel uit</button></a>'." } ]</li>\n";<br/>
-	}<br/>
-}<br/>
-echo '</ul>';<br/>
+/Load all the sensors<br/>
+$hw->get_sensors();
 
-//etc...
+//Load the status off sensors again<br/>
+$hw->get_status();
+
 ?>
 </code>
