@@ -27,7 +27,7 @@ if ($hw->suntimes()) {<br/>
 //Load all the switches<br/>
 $hw->get_switches();<br/>
 
-/Load all the sensors<br/>
+//Load all the sensors<br/>
 $hw->get_sensors();
 
 //Load the status off sensors again<br/>
