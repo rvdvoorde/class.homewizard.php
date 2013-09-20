@@ -1,4 +1,4 @@
-homewizard-php-class
+class.homewizard.php
 =======
 
 This is a simple php class to get the communications going with a homewizard using php.
