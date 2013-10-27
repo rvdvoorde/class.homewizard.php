@@ -398,9 +398,16 @@ class homewizard {
 		return true;
 	}
 	
-	private function _switch_on ($id, $level) {
-		//If it is a dimmer, set the dimlevel too, else just switch on.		
-		if (isset($this->switches[$id]->dimmer) && $this->switches[$id]->dimmer == 'yes') {
+	private function _switch_on ($id, $level) {		
+		foreach ($this->switches as $switch) {
+			if ($switch->id == $id) { break;}
+		}
+		
+		if ($switch->id != $id) {
+			return false;
+		}
+		
+		if (isset($switch->dimmer) && $switch->dimmer == 'yes') {
 			return ($this->_get_data('sw/dim/'.$id.'/'.$level));
 		} else {
 			return ($this->_get_data('sw/'.$id.'/on'));
