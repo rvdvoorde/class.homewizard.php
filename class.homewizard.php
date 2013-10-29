@@ -2,8 +2,8 @@
 
 /*******************************************
 # Author: R. Van de Voorde
-# Version: 1.0
-# Date: 20-09-2013
+# Version: 1.1
+# Date: 29-10-2013
 # Contact me at: free.php@wobbles.nl
 #
 # Homewizard version: 2.47
@@ -23,7 +23,13 @@
 #	* cameras
 #
 #	Note: After each command the values $status & $version are set again.
-#		  
+#
+#		* 27-10-2013
+#			f Fixed private function _switch_on			
+#		* 29-10-2013
+#			+ Added function thermo_graph.
+#			i It now replaces te-/+ and hu-/+ to te/hu_min and te/hu_plus
+#		
 ********************************************/
 
 class homewizard {
@@ -50,7 +56,7 @@ class homewizard {
 	
 	/* A handshake to get device info from the homewizard. Password is not required for this. */
 	public function handshake() {
-		//Returns true or false. Values $homewizard, $firmwareupdateavailable, $appupdaterequired, and $serial are set
+		//Returns true or false. Values $homewizard, $firmwareupdateavailable, $appupdaterequired, and $serial are set			
 		return $this->_handshake();
 	}
 	
@@ -174,8 +180,16 @@ class homewizard {
 		return $this->_remove_switch($id);
 	}
 	
+	/* Get thermometers graph data for 1 year */
+	/* Valid period values: day, month, year */
+	public function thermo_graph($id, $period) {
+		if ($period != 'day' && $period != 'month' && $period != 'year') {
+			return false;
+		}
+		return $this->_thermo_graph($id, $period);
+	}
 	
-	/* Replace the text on standard options to dutch */
+	/* Replace the text on standard options */
 	public function replace_text($text) {
 		if (strlen($text) == 0) {
 			return 'Onbekend';
@@ -187,7 +201,7 @@ class homewizard {
 		return $text;
 	}	
 	
-	/* Replace the text on motion/contacts/doorbells texts to dutch */
+	/* Replace the text on motion/contacts/doorbells texts */
 	public function replace_sensor($text) {
 		if (strlen($text) == 0) {
 			return 'Onbekend';
@@ -214,7 +228,7 @@ class homewizard {
 		$socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);		
 		socket_bind($socket, "0.0.0.0", 55555);
 		
-		$timeout = array('sec'=>10,'usec'=>0);
+		$timeout = array('sec'=>20,'usec'=>0);
 		socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO,$timeout);
 		socket_set_option($socket, SOL_SOCKET, SO_BROADCAST, 1);
 		socket_set_option($socket, SOL_SOCKET, SO_REUSEADDR, 1);
@@ -234,12 +248,13 @@ class homewizard {
 	}
 	
 	private function _handshake() {
-		if (!$this->_get_data('handshake')) {
+		if (!$this->_get_data('handshake')) {		
 			return false;
 		}
-		
+				
 		//Set all the object values
 		foreach ($this->raw->response as $key=>$value) {
+			$this->{$key} = new stdClass();
 			$this->{$key} = $value;	
 		}
 		
@@ -262,10 +277,10 @@ class homewizard {
 		if (!$this->_get_data('swlist')) {
 			return false;
 		}
-		
+				
 		//Set all the switches values
 		unset($this->switches);
-		foreach ($this->raw->response as $key=>$value) {
+		foreach ($this->raw->response as $key=>$value) {			
 			$this->switches->{$key} = $value;		
 		}
 		
@@ -279,7 +294,7 @@ class homewizard {
 		
 		//Set all the thermometers values
 		unset($this->thermometers);
-		foreach ($this->raw->response as $key=>$value) {
+		foreach ($this->raw->response as $key=>$value) {			
 			$this->thermometers->{$key} = $value;		
 		}
 		
@@ -447,6 +462,15 @@ class homewizard {
 		return ($this->_get_data('sw/remove/'.$id));
 	}
 	
+	private function _thermo_graph($id, $period) {
+		if ($this->_get_data('te/graph/'.$id.'/'.$period)) {
+			$this->graph_year = $this->raw->response;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	/* This function gets/sets the data, checks the status and sets status/version */
 	private function _get_data($command) {
 		$this->warning = '';
@@ -464,6 +488,10 @@ class homewizard {
 		//Load the data in json format
 		unset ($this->json);
 		$this->json = file_get_contents($url);
+		$this->json = str_replace("hu-", "hu_min", $this->json);
+		$this->json = str_replace("te-", "te_min", $this->json);
+		$this->json = str_replace("hu+", "hu_plus", $this->json);
+		$this->json = str_replace("te+", "te_plus", $this->json);
 		
 		//Reset the last data and fill it again
 		unset ($this->raw);
