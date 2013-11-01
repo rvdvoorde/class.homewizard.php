@@ -1,11 +1,15 @@
 <?php
+//Load the Homewizard class
 require ("class.homewizard.php");
 $hw = new homewizard();
 
+//Get the graph info for thermometer 0
 if (!$hw->thermo_graph(0, 'month')) {
 	echo 'error reading data!';
 	return;
 }
+
+//Start creating the graph
 
 //Google api doc: https://google-developers.appspot.com/chart/interactive/docs/gallery/linechart
 ?>
@@ -19,6 +23,7 @@ if (!$hw->thermo_graph(0, 'month')) {
         var data = google.visualization.arrayToDataTable([
           ['Maand', 'Min', 'Max'],
          <?php
+			//Set all the values we loaden from the hw.
 			foreach ($hw->graph_year as $value) {				
 				echo "['".$value->t."',".$value->te_min.','.$value->te_plus.'],'."\n";
 			}
