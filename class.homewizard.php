@@ -464,7 +464,7 @@ class homewizard {
 	
 	private function _thermo_graph($id, $period) {
 		if ($this->_get_data('te/graph/'.$id.'/'.$period)) {
-			$this->graph_year = $this->raw->response;
+			$this->thermo_graph = $this->raw->response;
 			return true;
 		} else {
 			return false;
