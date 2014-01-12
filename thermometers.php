@@ -24,7 +24,7 @@ if (!$hw->thermo_graph(0, 'month')) {
           ['Maand', 'Min', 'Max'],
          <?php
 			//Set all the values we loaden from the hw.
-			foreach ($hw->graph_year as $value) {				
+			foreach ($hw->thermo_graph as $value) {				
 				echo "['".$value->t."',".$value->te_min.','.$value->te_plus.'],'."\n";
 			}
 		 ?>			 
