@@ -6,7 +6,7 @@
 # Date: 29-10-2013
 # Contact me at: free.php@wobbles.nl
 #
-# Homewizard version: 2.47
+# Homewizard version: 2.482
 # 
 # Known types (19-09-2013):
 #	* switches
@@ -29,7 +29,9 @@
 #		* 29-10-2013
 #			+ Added function thermo_graph.
 #			i It now replaces te-/+ and hu-/+ to te/hu_min and te/hu_plus
-#		
+#		* 12-01-2014	
+#			i Tested with the new HW firmware
+#
 ********************************************/
 
 class homewizard {
@@ -37,7 +39,7 @@ class homewizard {
 	public $ip_address = '';
 	public $password = '';
 	
-	private $_version = '2.47'; //HW version when this class was written/last updated!
+	private $_version = '2.482'; //HW version when this class was written/last updated!
 	
 	
 	function __construct() {
